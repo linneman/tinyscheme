@@ -1,0 +1,25 @@
+# configuration of the build environment for x86 host system
+#
+# defines compiler / crosscompiler
+# build setup, etc.
+#
+# 2007 Otto Linnemann
+
+PLATFORM  := x86
+
+CC      	:= ./build/ccd-gcc
+INST      :=  ./build/install
+AR	    	:= ar
+RANLIB  	:= ranlib
+
+# select build setup
+ifeq ($(CFG), Release)
+	CF_ALL 	:= -O3 -std=c99 
+else
+	CF_ALL 	:= -g -DDEBUG -std=c99 
+endif
+
+DIR_BIN   :=  /usr/local/bin
+DIR_LIB   :=  /usr/local/lib
+DIR_MAN1  :=  /usr/local/man/man1
+DIR_MAN3  :=  /usr/local/man/man3

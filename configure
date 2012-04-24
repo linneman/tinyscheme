@@ -1,0 +1,28 @@
+#!/bin/sh
+# Configuration of BTHFCK3 make system
+
+case "$1" in
+	( host | HOST | Host | x86 | X86 ) 
+		echo "setup configure.make to compilation for HOST system"
+		cp configure.x86 configure.make
+		;;
+	
+	( blackfin | BlackFin | Blackfin | BLACKFIN ) 
+		echo "setup configure.make to cross-compilation for BLACKFIN uCLinux system"
+		cp configure.blackfin configure.make
+		;;
+		
+	( arm | ARM | Arm ) 
+		echo "setup configure.make to cross-compilation for ARM Linux system"
+		cp configure.arm configure.make
+		;;
+		
+	( darwin | DARWIN | Darwin ) 
+		echo "setup configure.make to cross-compilation for Darwin (Mac OS X Snow Leopard)"
+		cp configure.darwin configure.make
+		;;
+
+	( * ) 
+		echo "invoke with argument HOST, ARM, BLACKFIN or DARWIN"; exit ;;
+esac
+

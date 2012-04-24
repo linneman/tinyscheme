@@ -1,0 +1,49 @@
+# configuration of the build environment for x86 host system
+#
+# defines compiler / crosscompiler
+# build setup, etc.
+#
+# 2007 Otto Linnemann
+
+PLATFORM  := arm
+PLATFORM_SUBTYPE := T2
+PLATFORM_VERSION := 6
+
+
+# ARM Platform options
+#
+# -mtune=arm1136jf-s    // compiler option for optimized ARM 136jf-s assembly (ARM11)
+# -D__arm__             // Preprocessor defintion __ARM__ which includes general optimizations for all ARM platforms
+# -D_ARM_SUBTYPE        // ARM subtype (T1, T2, etc.), we use T2 for ARM11
+# -D_PLATFORM_VERSION   // ARM core version, we use 6 for ARM11
+# -DREALTIME_PROFILING  // Enables GNU/Linux specific scheduling setup for more precise frame process time profiling (fileproc)
+# -D_ARM_BITEXACT       // Disables ARM optimizations which do not provide full bit-exactness (used for development exclusively) 
+
+PLATFORM_OPTIONS :=                   \
+  -mtune=arm1136jf-s                  \
+  -D__arm__                           \
+  -D_ARM_SUBTYPE=$(PLATFORM_SUBTYPE)  \
+  -D_ARM_VERSION=$(PLATFORM_VERSION)  \
+  -D_REALTIME_PROFILING               \
+  -D_ARM_BITEXACT                     \
+
+
+# put C and assembly mixed sources to std out for optimization purposes
+# VERBOSE_OPTIONS := -Wa,-a,-ad
+
+CC      	:=  CC=arm-none-linux-gnueabi-gcc  ./build/ccd-gcc
+INST      :=  ./build/install
+AR	    	:= ar
+RANLIB  	:= ranlib
+
+# select build setup
+ifeq ($(CFG), Release)
+	CF_ALL 	:= -O3 $(VERBOSE_OPTIONS) $(PLATFORM_OPTIONS) -D__STDC_VERSION__=199901L
+else
+	CF_ALL 	:= -g $(VERBOSE_OPTIONS) $(PLATFORM_OPTIONS) -D__STDC_VERSION__=199901L -DDEBUG 
+endif
+
+DIR_BIN   :=  /usr/local/bin
+DIR_LIB   :=  /usr/local/lib
+DIR_MAN1  :=  /usr/local/man/man1
+DIR_MAN3  :=  /usr/local/man/man3

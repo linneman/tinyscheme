@@ -1,0 +1,9 @@
+*.o
+*.d
+*.a
+*~
+GPATH
+GRTAGS
+GTAGS
+configure.make
+hello-scheme
