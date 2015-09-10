@@ -18,7 +18,9 @@ extern "C" {
 #endif
 
 #ifndef _MSC_VER
-# define USE_STRCASECMP 1
+# ifndef USE_STRCASECMP
+#   define USE_STRCASECMP 1
+# endif
 # ifndef USE_STRLWR
 #   define USE_STRLWR 1
 # endif
@@ -48,8 +50,9 @@ extern "C" {
 /*
  * Leave it defined if you want continuations, and also for the Sharp Zaurus.
  * Undefine it if you only care about faster speed and not strict Scheme compatibility.
+ * 2015/ol: now declared via configure script
  */
-#define USE_SCHEME_STACK
+// #define USE_SCHEME_STACK
 
 #if USE_DL
 # define USE_INTERFACE 1
@@ -128,6 +131,7 @@ typedef struct num {
      } value;
 } num;
 
+const char* tiny_scheme_version;
 SCHEME_EXPORT scheme *scheme_init_new();
 SCHEME_EXPORT scheme *scheme_init_new_custom_alloc(func_alloc malloc, func_dealloc free);
 SCHEME_EXPORT int scheme_init(scheme *sc);

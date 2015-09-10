@@ -41,7 +41,7 @@ stamp-h1
 
 scheme
 tinyscheme.pc
-example/example
+example/tsrepl
 
 *.tar.gz
 .libs/

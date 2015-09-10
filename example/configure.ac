@@ -33,7 +33,9 @@ AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_PROG_LIBTOOL
 PKG_PROG_PKG_CONFIG
-AC_CHECK_FUNCS([memset])
+AC_CHECK_FUNCS([memset getopt_long])
+
+AC_CHECK_LIB([pthread], [pthread_create])
 
 PKG_CHECK_MODULES(tinyscheme, tinyscheme >= 1.41 )
 

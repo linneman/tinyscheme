@@ -40,6 +40,8 @@
 # endif
 #endif
 
+const char* tiny_scheme_version = PACKAGE_VERSION;
+
 /* Used for documentation purposes, to signal functions in 'interface' */
 #define INTERFACE
 
@@ -1364,7 +1366,7 @@ static void file_pop(scheme *sc) {
 }
 
 static int file_interactive(scheme *sc) {
- return sc->file_i==0 && sc->load_stack[0].rep.stdio.file==stdin
+ return sc->file_i==0 && sc->load_stack[0].rep.stdio.interactive /* sc->load_stack[0].rep.stdio.file==stdin */
      && sc->inport->_object._port->kind&port_file;
 }
 
@@ -1385,6 +1387,7 @@ static port *port_rep_from_filename(scheme *sc, const char *fn, int prop) {
   }
   pt=port_rep_from_file(sc,f,prop);
   pt->rep.stdio.closeit=1;
+  pt->rep.stdio.interactive=0;
 
 #if SHOW_ERROR_LINE
   if(fn)
@@ -1415,6 +1418,7 @@ static port *port_rep_from_file(scheme *sc, FILE *f, int prop)
     pt->kind = port_file | prop;
     pt->rep.stdio.file = f;
     pt->rep.stdio.closeit = 0;
+    pt->rep.stdio.interactive=sc->interactive_repl;
     return pt;
 }
 
@@ -1570,6 +1574,8 @@ INTERFACE void putstr(scheme *sc, const char *s) {
   port *pt=sc->outport->_object._port;
   if(pt->kind&port_file) {
     fputs(s,pt->rep.stdio.file);
+    if( pt->rep.stdio.interactive )
+         fflush( pt->rep.stdio.file );
   } else {
     for(;*s;s++) {
       if(pt->rep.string.curr!=pt->rep.string.past_the_end) {
@@ -4806,15 +4812,17 @@ void scheme_load_file(scheme *sc, FILE *fin)
 { scheme_load_named_file(sc,fin,0); }
 
 void scheme_load_named_file(scheme *sc, FILE *fin, const char *filename) {
+  int interactive_repl = sc->interactive_repl && !filename;
   dump_stack_reset(sc);
   sc->envir = sc->global_env;
   sc->file_i=0;
   sc->load_stack[0].kind=port_input|port_file;
   sc->load_stack[0].rep.stdio.file=fin;
+  sc->load_stack[0].rep.stdio.interactive=interactive_repl;
   sc->loadport=mk_port(sc,sc->load_stack);
   sc->retcode=0;
-  if(fin==stdin) {
-    sc->interactive_repl=1;
+  if(interactive_repl) {
+    sc->interactive_repl=interactive_repl;
   }
 
 #if SHOW_ERROR_LINE

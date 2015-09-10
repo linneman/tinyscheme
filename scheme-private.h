@@ -26,6 +26,7 @@ typedef struct port {
   union {
     struct {
       FILE *file;
+      int interactive;
       int closeit;
 #if SHOW_ERROR_LINE
       int curr_line;

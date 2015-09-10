@@ -134,7 +134,7 @@ fi
 
 AC_ARG_ENABLE([strcasecmp],
 [  --enable-strcasecmp	Defines stricmp as strcasecmp, for Unix")],
-[enable_strcasecmp=${enableval}], [enable_strcasecmp=no])
+[enable_strcasecmp=${enableval}], [enable_strcasecmp=yes])
 
 if test "x${enable_strcasecmp}" = xyes; then
    AC_DEFINE([USE_STRCASECMP], 1, [strcasecmp enabled])
@@ -182,13 +182,12 @@ fi
 
 AC_ARG_ENABLE([scheme-stack],
 [  --enable-scheme-stack	Enables 'cons' stack (the alternative is a faster calling scheme, which breaks continuations).")],
-[enable_scheme_stack=${enableval}], [enable_scheme_stack=no])
+[enable_scheme_stack=${enableval}], [enable_scheme_stack=yes])
 
 if test "x${enable_scheme_stack}" = xyes; then
    AC_DEFINE([USE_SCHEME_STACK], 1, [scheme stack enabled])
    AC_MSG_NOTICE([scheme stack enabled])
 else
-   AC_DEFINE([USE_SCHEME_STACK], 0, [scheme stack disabled])
    AC_MSG_NOTICE([scheme stack disabled])
 fi
 

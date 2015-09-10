@@ -20,10 +20,3 @@ libtinyscheme_la_SOURCES = \
 libtinyscheme_includedir=$(includedir)/tinyscheme
 libtinyscheme_include_HEADERS=scheme.h dynload.h scheme-private.h opdefines.h
 EXTRA_DIST=$(libtinyscheme_include_HEADERS)
-
-# repl
-bin_PROGRAMS = scheme
-scheme_CPPFLAGS=-I$(top_srcdir) $(AM_CPPFLAGS)
-scheme_SOURCES = \
-	repl.c
-scheme_LDADD = libtinyscheme.la -lm

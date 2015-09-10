@@ -4,17 +4,23 @@ TinyScheme is a lightweight Scheme interpreter written by Dimitrios Souflis and 
 
 This project is an out of the box illustration how to build the interpreter as a dynamic link library under an Unix operating system (Linux, BSD, Mac OS X).
 
-### Build
+### Build and Install Shared Library
 
     $ autoreconf -i
     $ ./configure
     $ make
-    $ optional: make install (requires admin credentials)
+    $ make install (requires admin credentials)
 
-### Run
+### Build and Run Sample Application
 
-    $ ./scheme
+    $ cd example
+    $ autoreconf -i
+    $ ./configure
+    $ make
+    $ ./tsrepl -c
 
-The sample program reads endlessly lines from stdin and evaluates them within a scheme interpreter instance. The output is currently not printed so you have to use e.g. (write (+ 1 2)) to get evaluation result printed to standard out.
+The sample program reads endlessly lines from stdin and evaluates them within a scheme interpreter instance. Alternatively the repl can be started up in server mode by leaving out the option '-c'. Use the following line to connect remotely:
+
+    $ telnet <host-addresse> 37146
 
 2015-09-09, Otto Linnemann
