@@ -101,7 +101,7 @@ static const char *strlwr(char *s) {
 #endif
 
 #ifndef prompt
-# define prompt "ts> "
+# define prompt "> "
 #endif
 
 #ifndef InitFile
@@ -2528,8 +2528,10 @@ static pointer opexe_0(scheme *sc, enum scheme_opcodes op) {
      {
        sc->envir = sc->global_env;
        dump_stack_reset(sc);
-       putstr(sc,"\n");
+       if( sc->eval_cnt )
+            putstr(sc,"\n"); // avoid initial output of empty line since geiser does not like it!
        putstr(sc,prompt);
+       ++(sc->eval_cnt);
      }
 
        /* Set up another iteration of REPL */
@@ -4675,6 +4677,7 @@ int scheme_init_custom_alloc(scheme *sc, func_alloc malloc, func_dealloc free) {
   sc->loadport=sc->NIL;
   sc->nesting=0;
   sc->interactive_repl=0;
+  sc->eval_cnt = 0;
 
   if (alloc_cellseg(sc,FIRST_CELLSEGS) != FIRST_CELLSEGS) {
     sc->no_memory=1;

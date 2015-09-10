@@ -96,8 +96,8 @@ static int read_init_file( scheme* sc, FILE* fd_socket )
   fp = fopen( scheme_init_file, "r" );
   if( fp != NULL )
   {
-    if( fd_socket )
-      fprintf( fd_socket, "initialized with init file %s\n", scheme_init_file );
+    // if( fd_socket )
+    //  fprintf( fd_socket, "initialized with init file %s\n", scheme_init_file );
 
     scheme_load_named_file( sc, fp, scheme_init_file );
     if( sc->retcode!=0 && fd_socket ) {
@@ -139,10 +139,10 @@ static void *repl(void *pnewsock)
   scheme_set_input_port_file(&sc, fdin );
   scheme_set_output_port_file(&sc, fdout );
 
-  fprintf( fdout, "tinyscheme %s\n", tiny_scheme_version );
+  // fprintf( fdout, "tinyscheme %s\n", tiny_scheme_version );
   read_init_file( &sc, fdout );
   init_ff( &sc );
-  fprintf( fdout, "(quit) exits repl session.\n" );
+  // fprintf( fdout, "(quit) exits repl session.\n" );
   scheme_load_named_file( &sc, fdin, 0);
 
   printf("close connection!\n");
