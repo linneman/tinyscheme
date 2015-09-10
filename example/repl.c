@@ -240,7 +240,7 @@ int main( int argc, char* argv[] )
     /* intialize the scheme object */
     if( !scheme_init(&sc) ) {
       fprintf(stderr,"Could not initialize scheme interpreter!\n");
-      return NULL;
+      return -1;
     }
 
     /* set standard input and output ports */

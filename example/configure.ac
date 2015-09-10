@@ -5,7 +5,7 @@ AC_PREREQ([2.61])
 AC_INIT([tinyscheme-example], [0.1], [otto.linnemann@peiker.de])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([subdir-objects])
-AC_CONFIG_SRCDIR([example.c])
+AC_CONFIG_SRCDIR([repl.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.

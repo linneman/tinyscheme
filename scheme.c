@@ -4646,6 +4646,9 @@ int scheme_init_custom_alloc(scheme *sc, func_alloc malloc, func_dealloc free) {
   int i, n=sizeof(dispatch_table)/sizeof(dispatch_table[0]);
   pointer x;
 
+  /* fix unitialized free under Mac OS X */
+  memset( sc->load_stack, 0, sizeof(port) * MAXFIL );
+
   num_zero.is_fixnum=1;
   num_zero.value.ivalue=0;
   num_one.is_fixnum=1;

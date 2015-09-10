@@ -131,7 +131,7 @@ typedef struct num {
      } value;
 } num;
 
-const char* tiny_scheme_version;
+extern const char* tiny_scheme_version;
 SCHEME_EXPORT scheme *scheme_init_new();
 SCHEME_EXPORT scheme *scheme_init_new_custom_alloc(func_alloc malloc, func_dealloc free);
 SCHEME_EXPORT int scheme_init(scheme *sc);
