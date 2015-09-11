@@ -19,6 +19,7 @@ GPATH
 GRTAGS
 GTAGS
 
+m4/*.m4
 Makefile
 Makefile.in
 aclocal.m4

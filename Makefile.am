@@ -8,7 +8,7 @@ AM_CPPFLAGS = -std=c99 -DSUN_DL=1
 
 # meta library name used by libtool
 lib_LTLIBRARIES=libtinyscheme.la
-libtinyscheme_la_LDFLAGS = -release $(VERSION)
+libtinyscheme_la_LDFLAGS = -release $(VERSION) -version-info 0:0:0
 libtinyscheme_la_LIBADD = -ldl
 
 # the rest of the sources goes into distribution (make dist)
