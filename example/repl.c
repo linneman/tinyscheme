@@ -21,7 +21,9 @@
 #define PORT       "37146" /* Port to listen on */
 #define BACKLOG        10  /* Passed to listen() */
 #define MAX_BUF_SIZE 1000
-#define INIT_FILE  "init.scm"
+#define INIT_FILE1  "./init.scm"
+#define INIT_FILE2  "/etc/init.scm"
+#define INIT_FILE3  "/usr/local/etc/init.scm"
 
 static char scheme_init_file[80];
 
@@ -89,25 +91,25 @@ static pointer func1(scheme *sc, pointer args)
 }
 
 
-static int read_init_file( scheme* sc, FILE* fd_socket )
+static int read_init_file( scheme* sc, const char* filename, FILE* fd_msg_socket )
 {
   FILE* fp;
 
-  fp = fopen( scheme_init_file, "r" );
+  fp = fopen( filename, "r" );
   if( fp != NULL )
   {
-    if( fd_socket )
-      fprintf( fd_socket, "initialized with init file %s\n", scheme_init_file );
+    if( fd_msg_socket )
+      fprintf( fd_msg_socket, "initialized with init file %s\n", filename );
 
     scheme_load_named_file( sc, fp, scheme_init_file );
-    if( sc->retcode!=0 && fd_socket ) {
-      fprintf(fd_socket, "Errors encountered reading %s\n", scheme_init_file );
+    if( sc->retcode!=0 && fd_msg_socket ) {
+      fprintf( fd_msg_socket, "Errors encountered reading %s\n", scheme_init_file );
     }
     fclose( fp );
     return sc->retcode;
   }
   else
-    return 0;
+    return -1;
 }
 
 static void init_ff( scheme* sc )
@@ -140,7 +142,12 @@ static void *repl(void *pnewsock)
   scheme_set_output_port_file(&sc, fdout );
 
   fprintf( fdout, "tinyscheme %s\n", tiny_scheme_version );
-  read_init_file( &sc, fdout );
+
+  /* read sceme initialization file, try various locations */
+  if( read_init_file( &sc, scheme_init_file, fdout ) )
+    if( read_init_file( &sc, INIT_FILE2, fdout ) )
+      if( read_init_file( &sc, INIT_FILE3, fdout ) )
+
   init_ff( &sc );
   fprintf( fdout, "(quit) exits repl session.\n" );
   scheme_load_named_file( &sc, fdin, 0);
@@ -190,7 +197,7 @@ int main( int argc, char* argv[] )
   };
 
   /* default arguments */
-  strncpy( scheme_init_file, INIT_FILE, sizeof(scheme_init_file) );
+  strncpy( scheme_init_file, INIT_FILE1, sizeof(scheme_init_file) );
   strncpy( port, PORT, sizeof(port) );
 
   /* parse command line arguments, port, init file, etc */
@@ -248,7 +255,12 @@ int main( int argc, char* argv[] )
     scheme_set_input_port_file(&sc, stdin );
     scheme_set_output_port_file(&sc, stdout );
     printf( "tinyscheme %s\n", tiny_scheme_version );
-    read_init_file( &sc, stdout );
+
+    /* read sceme initialization file, try various locations */
+    if( read_init_file( &sc, scheme_init_file, stdout ) )
+      if( read_init_file( &sc, INIT_FILE2, stdout ) )
+        if( read_init_file( &sc, INIT_FILE3, stdout ) )
+
     init_ff( &sc );
     printf( "(quit) exits repl session.\n" );
 
