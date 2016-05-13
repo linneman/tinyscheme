@@ -22,5 +22,5 @@ startup_DATA = init.scm
 
 # installed header files
 libtinyscheme_includedir=$(includedir)/tinyscheme
-libtinyscheme_include_HEADERS=scheme.h dynload.h scheme-private.h opdefines.h
+libtinyscheme_include_HEADERS=scheme.h dynload.h schemeconfig.h scheme-private.h opdefines.h
 EXTRA_DIST=$(libtinyscheme_include_HEADERS) $(startup_DATA)

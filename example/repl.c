@@ -101,9 +101,9 @@ static int read_init_file( scheme* sc, const char* filename, FILE* fd_msg_socket
     if( fd_msg_socket )
       fprintf( fd_msg_socket, "initialized with init file %s\n", filename );
 
-    scheme_load_named_file( sc, fp, scheme_init_file );
+    scheme_load_named_file( sc, fp, filename );
     if( sc->retcode!=0 && fd_msg_socket ) {
-      fprintf( fd_msg_socket, "Errors encountered reading %s\n", scheme_init_file );
+      fprintf( fd_msg_socket, "Errors encountered reading %s\n", filename );
     }
     fclose( fp );
     return sc->retcode;
@@ -143,12 +143,13 @@ static void *repl(void *pnewsock)
 
   fprintf( fdout, "tinyscheme %s\n", tiny_scheme_version );
 
+  init_ff( &sc );
+
   /* read sceme initialization file, try various locations */
   if( read_init_file( &sc, scheme_init_file, fdout ) )
     if( read_init_file( &sc, INIT_FILE2, fdout ) )
       if( read_init_file( &sc, INIT_FILE3, fdout ) )
 
-  init_ff( &sc );
   fprintf( fdout, "(quit) exits repl session.\n" );
   scheme_load_named_file( &sc, fdin, 0);
 

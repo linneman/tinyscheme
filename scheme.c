@@ -13,7 +13,7 @@
  */
 
 #define _SCHEME_SOURCE
-#include <config.h>
+#include <schemeconfig.h>
 #include "scheme-private.h"
 #ifndef WIN32
 # include <unistd.h>

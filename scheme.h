@@ -4,7 +4,7 @@
 #define _SCHEME_H
 
 #include <stdio.h>
-#include <config.h>
+#include <schemeconfig.h>
 
 #ifdef __cplusplus
 extern "C" {

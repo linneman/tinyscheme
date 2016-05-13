@@ -26,6 +26,8 @@ aclocal.m4
 autom4te.cache
 compile
 config.guess
+schemeconfig.h
+schemeconfig.h.in
 config.h
 config.h.in
 config.log
