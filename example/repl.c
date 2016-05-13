@@ -15,8 +15,8 @@
 #include <fcntl.h>
 #include <getopt.h>
 
-#include <tinyscheme/scheme.h>
-#include <tinyscheme/dynload.h>
+#include <scheme.h>
+#include <dynload.h>
 
 #define PORT       "37146" /* Port to listen on */
 #define BACKLOG        10  /* Passed to listen() */
